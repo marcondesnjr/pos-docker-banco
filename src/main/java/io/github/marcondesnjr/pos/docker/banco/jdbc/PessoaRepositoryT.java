@@ -31,5 +31,10 @@ public class PessoaRepositoryT implements PessoaRepository{
     public Pessoa create(Pessoa p) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
+    @Override
+    public void delete(Pessoa p) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
 }

@@ -41,6 +41,13 @@
             <artifactId>postgresql</artifactId>
             <version>42.2.2</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/org.webjars/font-awesome -->
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>font-awesome</artifactId>
+            <version>5.0.10</version>
+        </dependency>
+
 
     </dependencies>
 

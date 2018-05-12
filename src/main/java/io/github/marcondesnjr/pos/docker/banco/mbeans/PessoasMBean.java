@@ -49,6 +49,14 @@ public class PessoasMBean {
         p.setNome(nome);
         p.setCpf(cpf);
         this.pessoaRepository.create(p);
+        update();
+        this.nome="";
+        this.cpf="";
+    }
+    
+    public void deletarPessoa(Pessoa p){
+        pessoaRepository.delete(p);
+        update();
     }
     
     public void update(){

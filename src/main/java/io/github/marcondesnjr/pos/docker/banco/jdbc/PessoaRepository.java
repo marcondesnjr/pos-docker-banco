@@ -14,5 +14,6 @@ public interface PessoaRepository {
     
     public List<Pessoa> readAll();
     public Pessoa create(Pessoa p);
+    public void delete(Pessoa p);
     
 }

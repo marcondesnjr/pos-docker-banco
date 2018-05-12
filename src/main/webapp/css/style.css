@@ -1,0 +1,15 @@
+/*
+
+*/
+/* 
+    Created on : 12/05/2018, 12:19:01
+    Author     : José Marcondes do Nascimento Junior
+*/
+
+#table{
+    padding-top: 1em;
+};
+
+#table:coluna-id{
+    width: 10px;
+}

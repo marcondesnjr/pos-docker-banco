@@ -60,5 +60,15 @@ public class PessoaRepositoryDB implements PessoaRepository{
         }
         return pessoa;
     }
+
+    @Override
+    public void delete(Pessoa p) {
+        String sql = "DELETE FROM PESSOA WHERE id = ?";
+        try {
+            qr.execute(sql, p.getId());
+        } catch (SQLException ex) {
+            Logger.getLogger(PessoaRepositoryDB.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     
 }
