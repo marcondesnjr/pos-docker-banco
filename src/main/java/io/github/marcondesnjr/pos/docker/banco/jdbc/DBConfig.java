@@ -51,4 +51,8 @@ public class DBConfig {
         return this.prop.getProperty("password");
     }
     
+    public String getURI(){
+        return this.prop.getProperty("uri");
+    }
+    
 }

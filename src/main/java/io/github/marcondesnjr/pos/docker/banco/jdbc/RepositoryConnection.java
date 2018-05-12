@@ -3,44 +3,55 @@
  */
 package io.github.marcondesnjr.pos.docker.banco.jdbc;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
 import javax.sql.DataSource;
-import org.postgresql.ds.PGPoolingDataSource;
+import org.apache.commons.dbcp2.ConnectionFactory;
+import org.apache.commons.dbcp2.DriverManagerConnectionFactory;
+import org.apache.commons.dbcp2.PoolableConnection;
+import org.apache.commons.dbcp2.PoolableConnectionFactory;
+import org.apache.commons.dbcp2.PoolingDataSource;
+import org.apache.commons.pool2.ObjectPool;
+import org.apache.commons.pool2.impl.GenericObjectPool;
 
 /**
  *
  * @author José Marcondes do Nascimento Junior
  */
 public class RepositoryConnection {
-    
+
     @Inject
     private DBConfig dbConfig;
-    
+
     private static final int MIN_CONNECTIONS = 1;
     private static final int MAX_CONNECTIONS = 1;
-    
+
     @Produces
     @ApplicationScoped
-    public DataSource getDataSource(){
+    public DataSource getDataSource() {
         
-    
-        PGPoolingDataSource ds = new PGPoolingDataSource();
-        ds.setDataSourceName("Main DataSource");
+        try {
+            Class.forName("org.postgresql.Driver");
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(RepositoryConnection.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
-        
-        ds.setServerName(dbConfig.getServerName());
-        ds.setDatabaseName(dbConfig.getDataBaseName());
-        ds.setPortNumber(dbConfig.getPort());
-        ds.setUser(dbConfig.getUser());
-        ds.setPassword(dbConfig.getPassword());
-        
-        ds.setInitialConnections(MIN_CONNECTIONS);
-        ds.setMaxConnections(MAX_CONNECTIONS);
-        
-        return ds;
-    
+
+        String URI = dbConfig.getURI();
+
+        ConnectionFactory connectionFactory = new DriverManagerConnectionFactory(URI, dbConfig.getUser(), dbConfig.getPassword());
+        PoolableConnectionFactory poolableConnectionFactory = new PoolableConnectionFactory(connectionFactory, null);
+        ObjectPool<PoolableConnection> connectionPool = new GenericObjectPool<>(poolableConnectionFactory);
+
+        poolableConnectionFactory.setPool(connectionPool);
+
+        PoolingDataSource<PoolableConnection> dataSource = new PoolingDataSource<>(connectionPool);
+
+        return dataSource;
+
     }
-    
+
 }
